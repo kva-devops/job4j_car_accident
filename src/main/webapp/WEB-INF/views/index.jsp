@@ -10,17 +10,20 @@
 <body>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-2">
+        <div class="col-6">
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Имя и фамилия</th>
+                    <th scope="col">Accidents List</th>
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${userList}" var="person">
+                <c:forEach items="${accidentsList}" var="accident">
                     <tr>
-                        <td><c:out value="${person}"/></td>
+                        <td><c:out value="${accident.id}"/></td>
+                        <td><c:out value="${accident.name}"/></td>
+                        <td><c:out value="${accident.text}"/></td>
+                        <td><c:out value="${accident.address}"/></td>
                     </tr>
                 </c:forEach>
                 </tbody>
