@@ -18,4 +18,8 @@ public class AccidentService {
     public Collection<Accident> getAll() {
         return store.getAccidents();
     }
+
+    public AccidentMem getStore() {
+        return store;
+    }
 }
