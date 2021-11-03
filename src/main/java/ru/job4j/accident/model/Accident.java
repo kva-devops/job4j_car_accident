@@ -6,9 +6,13 @@ import java.util.Objects;
 
 @Component
 public class Accident {
+
     private int id;
+
     private String name;
+
     private String text;
+
     private String address;
 
     public int getId() {

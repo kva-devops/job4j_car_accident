@@ -33,7 +33,7 @@ public class AccidentControl {
 
     @PostMapping("/save")
     public String save(@ModelAttribute Accident accident) {
-        accidentService.getStore().createAccident(accident);
+        accidentService.addAccidentToStore(accident);
         return "redirect:/";
     }
 }

@@ -19,7 +19,7 @@ public class AccidentService {
         return store.getAccidents();
     }
 
-    public AccidentMem getStore() {
-        return store;
+    public void addAccidentToStore(Accident accident) {
+        store.createAccident(accident);
     }
 }
