@@ -30,6 +30,14 @@
                     <input type="text" class="form-control" id="addressIdForm" name="address">
                     <div id="addressHelp" class="form-text">Адрес, где зафиксировано нарушение</div>
                 </div>
+                <div class="mb-3">
+                    <label for="addressIdForm" class="form-label">Тип нарушения</label>
+                    <select name="type.id">
+                        <c:forEach var="type" items="${types}" >
+                            <option value="${type.id}">${type.name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary">Сохранить</button>
             </form>
         </div>

@@ -14,7 +14,7 @@
     <div class="row">
         <h2>Edit Accident</h2>
         <div class="col-6">
-            <form action="<c:url value='/save?id=${accident.id}'/>" method='POST'>
+            <form action="<c:url value='/save?id=${accident.id}&text=${accident.text}&address=${accident.address}&type.name=${accident.type.name}'/>" method='POST'>
                 <div class="mb-3">
                     <label for="nameIdForm" class="form-label">Название</label>
                     <input type="text" class="form-control" id="nameIdForm" name="name">
