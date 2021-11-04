@@ -31,10 +31,18 @@
                     <div id="addressHelp" class="form-text">Адрес, где зафиксировано нарушение</div>
                 </div>
                 <div class="mb-3">
-                    <label for="addressIdForm" class="form-label">Тип нарушения</label>
-                    <select name="type.id">
+                    <label for="typeIdForm" class="form-label">Тип нарушения</label>
+                    <select name="type.id" id="typeIdForm">
                         <c:forEach var="type" items="${types}" >
                             <option value="${type.id}">${type.name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="ruleIdForm" class="form-label">Статьи</label>
+                    <select name="rIds" id="ruleIdForm" multiple>
+                        <c:forEach var="rule" items="${rules}" >
+                            <option value="${rule.id}">${rule.name}</option>
                         </c:forEach>
                     </select>
                 </div>
