@@ -7,34 +7,22 @@
           crossorigin="anonymous">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Accident</title>
+    <title>Accident Edit</title>
 </head>
 <body>
 <div class="container-fluid">
     <div class="row">
+        <h2>Edit Accident</h2>
         <div class="col-6">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">Accidents List</th>
-                </tr>
-                </thead>
-                <tbody>
-                <c:forEach items="${accidentsList}" var="accident">
-                    <tr>
-                        <td><c:out value="${accident.id}"/></td>
-                        <td><c:out value="${accident.name}"/></td>
-                        <td><c:out value="${accident.text}"/></td>
-                        <td><c:out value="${accident.address}"/></td>
-                        <td><a href="<c:out value='/accident/update?id=${accident.id}'/>">Редактировать</a></td>
-                    </tr>
-                </c:forEach>
-                </tbody>
-            </table>
+            <form action="<c:url value='/save?id=${accident.id}'/>" method='POST'>
+                <div class="mb-3">
+                    <label for="nameIdForm" class="form-label">Название</label>
+                    <input type="text" class="form-control" id="nameIdForm" name="name">
+                    <div id="nameHelp" class="form-text">Придумайте новое название инцидента</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </form>
         </div>
-    </div>
-    <div class="row">
-        <a href="<c:url value='/create' />">Добавить инцидент</a>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"

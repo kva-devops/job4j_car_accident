@@ -20,6 +20,20 @@ public class AccidentService {
     }
 
     public void addAccidentToStore(Accident accident) {
-        store.createAccident(accident);
+        if (store.getAccidents().contains(accident)) {
+            store.updateAccident(accident);
+        } else {
+            store.createAccident(accident);
+        }
+    }
+
+    public Accident findById(int id) {
+        Accident result = null;
+        for (Accident elem : store.getAccidents()) {
+            if (elem.getId() == id) {
+                result = elem;
+            }
+        }
+        return result;
     }
 }

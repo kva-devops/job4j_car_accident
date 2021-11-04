@@ -7,12 +7,13 @@
           crossorigin="anonymous">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Accident</title>
+    <title>Accident Create</title>
 </head>
 <body>
 <div class="container-fluid">
     <div class="row">
         <div class="col-6">
+            <h2>Create Accident</h2>
             <form action="<c:url value='/save'/>" method='POST'>
                 <div class="mb-3">
                     <label for="nameIdForm" class="form-label">Название</label>
