@@ -39,19 +39,18 @@ public class AccidentMem {
         return rules.values();
     }
 
-    public void createAccident(Accident accident) {
-        accident.setType(AccidentType.of(accident.getType().getId(), accidentTypes.get(accident.getType().getId()).getName()));
-        accident.setId(counterAccidentId.intValue());
-        accidents.put(counterAccidentId.intValue(), accident);
-        counterAccidentId.incrementAndGet();
-    }
-
-    public void updateAccident(Accident accident) {
-        for (Map.Entry<Integer, Accident> elem : accidents.entrySet()) {
-            if (elem.getValue().getId() == accident.getId()) {
-                accident.setRules(elem.getValue().getRules());
-                accidents.put(elem.getKey(), accident);
-            }
+    public void save(Accident accident) {
+        if (accident.getId() != 0) {
+            accident.setRules(accidents.get(accident.getId()).getRules());
+            accident.setText(accidents.get(accident.getId()).getText());
+            accident.setAddress(accidents.get(accident.getId()).getAddress());
+            accident.setType(accidents.get(accident.getId()).getType());
+            accidents.put(accident.getId(), accident);
+        } else {
+            accident.setId(counterAccidentId.intValue());
+            accident.setType(accidentTypes.get(accident.getType().getId()));
+            accidents.put(accident.getId(), accident);
+            counterAccidentId.incrementAndGet();
         }
     }
 }

@@ -29,12 +29,12 @@ public class AccidentService {
         return store.getRules();
     }
 
-    public void addAccidentToStore(Accident accident) {
-        if (store.getAccidents().contains(accident)) {
-            store.updateAccident(accident);
-        } else {
-            store.createAccident(accident);
+    public void addAccidentToStore(Accident accident, String[] ids) {
+        if (ids != null) {
+            Set<Rule> rules = findRulesByIds(ids);
+            accident.setRules(rules);
         }
+        store.save(accident);
     }
 
     public Accident findById(int id) {
@@ -47,28 +47,10 @@ public class AccidentService {
         return result;
     }
 
-     public Set<Rule> fillRulesForAccident(String[] ids, Accident accident) {
-        Set<Rule> result;
-        if (ids == null) {
-            int counter = 0;
-            Set<Rule> setRulesBuff = accident.getRules();
-            String[] idsIfUpdateAccident = new String[setRulesBuff.size()];
-            for (Rule elem : setRulesBuff) {
-                idsIfUpdateAccident[counter] = String.valueOf(elem.getId());
-                counter++;
-            }
-            result = findRulesByIds(idsIfUpdateAccident);
-        } else {
-            result = findRulesByIds(ids);
-        }
-        return result;
-     }
-
      private Set<Rule> findRulesByIds(String[] ids) {
          Set<Rule> result = new HashSet<>();
-         List<Rule> buffList = new ArrayList<>(store.getRules());
          for (String id : ids) {
-             for (Rule elem : buffList) {
+             for (Rule elem : store.getRules()) {
                  if (elem.getId() == Integer.parseInt(id)) {
                      result.add(elem);
                  }
