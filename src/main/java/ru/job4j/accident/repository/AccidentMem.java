@@ -41,7 +41,6 @@ public class AccidentMem {
 
     public void save(Accident accident) {
         if (accident.getId() != 0) {
-            accident.setRules(accidents.get(accident.getId()).getRules());
             accident.setText(accidents.get(accident.getId()).getText());
             accident.setAddress(accidents.get(accident.getId()).getAddress());
             accident.setType(accidents.get(accident.getId()).getType());

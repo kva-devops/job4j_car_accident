@@ -31,10 +31,24 @@ public class AccidentService {
 
     public void addAccidentToStore(Accident accident, String[] ids) {
         if (ids != null) {
-            Set<Rule> rules = findRulesByIds(ids);
+            Set<Rule> rules = new HashSet<>();
+            for (String id : ids) {
+                rules.add(findRuleById(Integer.parseInt(id)));
+            }
             accident.setRules(rules);
+        } else {
+            accident.setRules(findRulesByAccidentId(accident.getId()));
         }
         store.save(accident);
+    }
+
+    private Set<Rule> findRulesByAccidentId(int id) {
+        for (Accident elem : store.getAccidents()) {
+            if (elem.getId() == id) {
+                return elem.getRules();
+            }
+        }
+        return null;
     }
 
     public Accident findById(int id) {
@@ -47,15 +61,8 @@ public class AccidentService {
         return result;
     }
 
-     private Set<Rule> findRulesByIds(String[] ids) {
-         Set<Rule> result = new HashSet<>();
-         for (String id : ids) {
-             for (Rule elem : store.getRules()) {
-                 if (elem.getId() == Integer.parseInt(id)) {
-                     result.add(elem);
-                 }
-             }
-         }
-         return result;
+     public Rule findRuleById(int id) {
+        List<Rule> buff = new ArrayList<>(store.getRules());
+        return buff.get(id - 1);
      }
 }
