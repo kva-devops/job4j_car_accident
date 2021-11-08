@@ -1,5 +1,7 @@
 package ru.job4j.accident.control;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,18 +17,20 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 
 @Controller
-public class AccidentControl {
+public class IndexControl {
+
+    private static final Logger LOG = LogManager.getLogger(IndexControl.class.getName());
 
     private final AccidentService accidentService;
 
-    public AccidentControl(AccidentService accidentService) {
+    public IndexControl(AccidentService accidentService) {
         this.accidentService = accidentService;
     }
 
+
     @GetMapping("/")
     public String index(Model model) {
-        Collection<Accident> buff = accidentService.getAll();
-        model.addAttribute("accidentsList", buff);
+        model.addAttribute("accidents", accidentService.getAll());
         return "index";
     }
 
@@ -39,16 +43,16 @@ public class AccidentControl {
         return "/accident/create";
     }
 
-    @GetMapping("/update")
-    public String update(@RequestParam("id") int id, Model model) {
-        model.addAttribute("accident", accidentService.findById(id));
-        return "accident/update";
-    }
-
     @PostMapping("/save")
     public String save(@ModelAttribute Accident accident, HttpServletRequest req) {
         String[] ids = req.getParameterValues("rIds");
         accidentService.addAccidentToStore(accident, ids);
         return "redirect:/";
+    }
+
+    @GetMapping("/update")
+    public String update(@RequestParam("id") int id, Model model) {
+        model.addAttribute("accident", accidentService.findById(id));
+        return "accident/update";
     }
 }

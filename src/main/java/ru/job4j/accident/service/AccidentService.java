@@ -1,32 +1,32 @@
 package ru.job4j.accident.service;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
-import ru.job4j.accident.repository.AccidentMem;
+import ru.job4j.accident.repository.AccidentJdbcTemplate;
 
 import java.util.*;
 
 @Service
 public class AccidentService {
 
-    private final AccidentMem store;
+    private static final Logger LOG = LogManager.getLogger(AccidentService.class.getName());
 
-    public AccidentService() {
-        this.store = new AccidentMem();
+    private final AccidentJdbcTemplate store;
+
+    public AccidentService(AccidentJdbcTemplate store) {
+        this.store = store;
     }
 
     public Collection<Accident> getAll() {
-        return store.getAccidents();
+        return store.getAll();
     }
 
     public Collection<AccidentType> getAllAccidentType() {
-        return store.getAccidentsTypes();
-    }
-
-    public Collection<Rule> getAllRules() {
-        return store.getRules();
+        return store.getAllAccidentType();
     }
 
     public void addAccidentToStore(Accident accident, String[] ids) {
@@ -43,26 +43,18 @@ public class AccidentService {
     }
 
     private Set<Rule> findRulesByAccidentId(int id) {
-        for (Accident elem : store.getAccidents()) {
-            if (elem.getId() == id) {
-                return elem.getRules();
-            }
-        }
-        return null;
+        return new HashSet<>(store.findRulesByAccidentId(id));
+    }
+
+    private Rule findRuleById(int parseInt) {
+        return store.findRuleById(parseInt);
     }
 
     public Accident findById(int id) {
-        Accident result = null;
-        for (Accident elem : store.getAccidents()) {
-            if (elem.getId() == id) {
-                result = elem;
-            }
-        }
-        return result;
+        return store.findById(id);
     }
 
-     public Rule findRuleById(int id) {
-        List<Rule> buff = new ArrayList<>(store.getRules());
-        return buff.get(id - 1);
-     }
+    public Collection<Rule> getAllRules() {
+        return store.getAllRules();
+    }
 }

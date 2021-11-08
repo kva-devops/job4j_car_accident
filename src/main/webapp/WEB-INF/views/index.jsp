@@ -20,16 +20,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${accidentsList}" var="accident">
+                <c:forEach items="${accidents}" var="accident">
                     <tr>
                         <td><c:out value="${accident.id}"/></td>
                         <td><c:out value="${accident.name}"/></td>
                         <td><c:out value="${accident.text}"/></td>
                         <td><c:out value="${accident.address}"/></td>
                         <td><c:out value="${accident.type.name}"/></td>
-                        <td><c:forEach items="${accident.rules}" var="rule">
-                            <c:out value="${rule.name}"/>
-                        </c:forEach> </td>
+<%--                        <td><c:forEach items="${accident.rules}" var="rule">--%>
+<%--                            <c:out value="${rule.name}"/>--%>
+<%--                        </c:forEach> </td>--%>
                         <td><a href="<c:out value='/accident/update?id=${accident.id}'/>">Редактировать</a></td>
                     </tr>
                 </c:forEach>
