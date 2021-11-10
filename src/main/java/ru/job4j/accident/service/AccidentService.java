@@ -28,7 +28,7 @@ public class AccidentService {
     public Collection<AccidentType> getAllAccidentType() {
         return store.getAllAccidentType();
     }
-//
+
     public void addAccidentToStore(Accident accident, String[] ids) {
         if (ids != null) {
             for (String id : ids) {
