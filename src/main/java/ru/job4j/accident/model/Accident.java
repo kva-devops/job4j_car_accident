@@ -1,13 +1,16 @@
 package ru.job4j.accident.model;
 
-import org.springframework.stereotype.Component;
-
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@Component
+@Entity
+@Table(name = "accident")
 public class Accident {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String name;
@@ -16,9 +19,16 @@ public class Accident {
 
     private String address;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "accident_type_id", nullable = false)
     private AccidentType type;
 
-    private Set<Rule> rules;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Rule> rules = new HashSet<>();
+
+    public void addRule(Rule rule) {
+        this.rules.add(rule);
+    }
 
     public int getId() {
         return id;

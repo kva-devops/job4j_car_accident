@@ -16,7 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
 
-@Repository
+//@Repository
 public class AccidentJdbcTemplate {
 
     private static final Logger LOG = LogManager.getLogger(AccidentJdbcTemplate.class.getName());

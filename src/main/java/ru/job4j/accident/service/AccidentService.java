@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
-import ru.job4j.accident.repository.AccidentJdbcTemplate;
+import ru.job4j.accident.repository.AccidentHibernate;
 
 import java.util.*;
 
@@ -15,9 +15,9 @@ public class AccidentService {
 
     private static final Logger LOG = LogManager.getLogger(AccidentService.class.getName());
 
-    private final AccidentJdbcTemplate store;
+    private final AccidentHibernate store;
 
-    public AccidentService(AccidentJdbcTemplate store) {
+    public AccidentService(AccidentHibernate store) {
         this.store = store;
     }
 
@@ -28,30 +28,18 @@ public class AccidentService {
     public Collection<AccidentType> getAllAccidentType() {
         return store.getAllAccidentType();
     }
-
+//
     public void addAccidentToStore(Accident accident, String[] ids) {
         if (ids != null) {
-            Set<Rule> rules = new HashSet<>();
             for (String id : ids) {
-                rules.add(findRuleById(Integer.parseInt(id)));
+                accident.addRule(findRuleById(Integer.parseInt(id)));
             }
-            accident.setRules(rules);
-        } else {
-            accident.setRules(findRulesByAccidentId(accident.getId()));
         }
         store.save(accident);
     }
 
-    private Set<Rule> findRulesByAccidentId(int id) {
-        return new HashSet<>(store.findRulesByAccidentId(id));
-    }
-
     private Rule findRuleById(int parseInt) {
         return store.findRuleById(parseInt);
-    }
-
-    public Accident findById(int id) {
-        return store.findById(id);
     }
 
     public Collection<Rule> getAllRules() {
