@@ -6,7 +6,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name = "accident")
+@Table(name = "accidents")
 public class Accident {
 
     @Id
@@ -20,11 +20,15 @@ public class Accident {
     private String address;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "accident_type_id", nullable = false)
+    @JoinColumn(name = "accident_types_id", nullable = false)
     private AccidentType type;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Set<Rule> rules = new HashSet<>();
+
+    public Accident() {
+
+    }
 
     public void addRule(Rule rule) {
         this.rules.add(rule);

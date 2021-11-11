@@ -4,61 +4,105 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
+import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
 
 import java.util.List;
+import java.util.function.Function;
 
 @Repository
-public class AccidentHibernate {
+public class AccidentHibernate implements Store {
 
     private static final Logger LOG = LogManager.getLogger(AccidentHibernate.class.getName());
 
     private final SessionFactory sf;
 
     public AccidentHibernate(SessionFactory sf) {
-        this.sf = sf;
+         this.sf = sf;
     }
 
-    public Accident save(Accident accident) {
-        try (Session session = sf.openSession()) {
-            LOG.info(accident.getRules().size());
-            session.save(accident);
-            return accident;
+    private <T> T tx(final Function<Session, T> command) {
+        final Session session = sf.openSession();
+        final Transaction tx = session.beginTransaction();
+        try {
+            T rsl = command.apply(session);
+            tx.commit();
+            return rsl;
+        } catch (final Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        } finally {
+            session.close();
         }
     }
 
-    public List<Accident> getAll() {
-        try (Session session = sf.openSession()) {
-            return session
-                    .createQuery("select a from Accident a join fetch a.type order by a.id asc ")
-                    .list();
-        }
+    @Override
+    public List<Accident> findAllAccidents() {
+        return this.tx(
+                session -> session
+                        .createQuery(
+                        "select distinct a from Accident a "
+                            + "join fetch a.type as t "
+                            + "join fetch a.rules "
+                            + "order by a.id asc")
+                        .list()
+        );
     }
 
-    public List getAllAccidentType() {
-        try (Session session = sf.openSession()) {
-            return session
-                    .createQuery("from AccidentType")
-                    .list();
-        }
+    @Override
+    public List<AccidentType> findAllAccidentTypes() {
+        return this.tx(
+                session -> session.createQuery(
+                        "from AccidentType"
+                ).list()
+        );
     }
 
-    public List<Rule> getAllRules() {
-        try (Session session = sf.openSession()) {
-            return session
-                    .createQuery("from Rule")
-                    .list();
-        }
+    @Override
+    public List<Rule> findAllRules() {
+        return this.tx(
+                session -> session.createQuery(
+                        "from Rule"
+                ).list()
+        );
+    }
+
+
+    public void save(Accident accident) {
+         this.tx(
+                session -> session.save(accident)
+        );
+    }
+
+    @Override
+    public void update(Accident accident) {
+        this.tx(
+                session -> {
+                    session.update(accident);
+                    return null;
+                }
+        );
+    }
+
+    @Override
+    public Accident findById(int id) {
+        return (Accident) this.tx(
+                session -> session.createQuery(
+                        "select distinct a from Accident a "
+                        + "join fetch a.type as t "
+                        + "join fetch a.rules "
+                        + "where a.id = :id")
+                .setParameter("id", id)
+                .uniqueResult()
+        );
     }
 
     public Rule findRuleById(int id) {
-        try (Session session = sf.openSession()) {
-            return (Rule) session
-                    .createQuery("from Rule where id=:id")
-                    .setParameter("id", id)
-                    .uniqueResult();
-        }
+        return this.tx(
+                session -> session.get(Rule.class, id)
+        );
     }
 }

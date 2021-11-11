@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "rule")
+@Table(name = "rules")
 public class Rule {
 
     @Id
@@ -13,11 +13,13 @@ public class Rule {
 
     private String name;
 
-    public static Rule of(int id, String name) {
-        Rule rule = new Rule();
-        rule.id = id;
-        rule.name = name;
-        return rule;
+    public Rule() {
+
+    }
+
+    public Rule(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
     public int getId() {

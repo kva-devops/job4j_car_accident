@@ -21,28 +21,41 @@ public class AccidentService {
         this.store = store;
     }
 
-    public Collection<Accident> getAll() {
-        return store.getAll();
+    public List<Accident> getAllAccidents() {
+        return store.findAllAccidents();
     }
 
-    public Collection<AccidentType> getAllAccidentType() {
-        return store.getAllAccidentType();
+    public List<AccidentType> getAllAccidentTypes() {
+        return store.findAllAccidentTypes();
+    }
+
+    public List<Rule> getAllRules() {
+        return store.findAllRules();
     }
 
     public void addAccidentToStore(Accident accident, String[] ids) {
         if (ids != null) {
+            Set<Rule> rules = new HashSet<>();
             for (String id : ids) {
-                accident.addRule(findRuleById(Integer.parseInt(id)));
+                rules.add(findRuleById(Integer.parseInt(id)));
             }
+            accident.setRules(rules);
+            store.save(accident);
+        } else {
+            Accident buff = store.findById(accident.getId());
+            accident.setText(buff.getText());
+            accident.setAddress(buff.getAddress());
+            accident.setType(buff.getType());
+            accident.setRules(buff.getRules());
+            store.update(accident);
         }
-        store.save(accident);
     }
 
     private Rule findRuleById(int parseInt) {
         return store.findRuleById(parseInt);
     }
 
-    public Collection<Rule> getAllRules() {
-        return store.getAllRules();
+    public Accident findById(int id) {
+        return store.findById(id);
     }
 }

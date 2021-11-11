@@ -1,12 +1,10 @@
 package ru.job4j.accident.model;
 
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "accident_type")
+@Table(name = "accident_types")
 public class AccidentType {
 
     @Id
@@ -15,11 +13,8 @@ public class AccidentType {
 
     private String name;
 
-    public static AccidentType of(int id, String name) {
-        AccidentType type = new AccidentType();
-        type.id = id;
-        type.name = name;
-        return type;
+    public AccidentType() {
+
     }
 
     public int getId() {

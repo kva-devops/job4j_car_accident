@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
@@ -29,13 +30,13 @@ public class IndexControl {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("accidents", accidentService.getAll());
+        model.addAttribute("accidents", accidentService.getAllAccidents());
         return "index";
     }
 
     @GetMapping("/create")
     public String create(Model model) {
-        Collection<AccidentType> types = accidentService.getAllAccidentType();
+        Collection<AccidentType> types = accidentService.getAllAccidentTypes();
         Collection<Rule> rules = accidentService.getAllRules();
         model.addAttribute("types", types);
         model.addAttribute("rules", rules);
@@ -47,5 +48,11 @@ public class IndexControl {
         String[] ids = req.getParameterValues("rIds");
         accidentService.addAccidentToStore(accident, ids);
         return "redirect:/";
+    }
+
+    @GetMapping("/update")
+    public String update(@RequestParam("id") int id, Model model) {
+        model.addAttribute("accident", accidentService.findById(id));
+        return "accident/update";
     }
 }
