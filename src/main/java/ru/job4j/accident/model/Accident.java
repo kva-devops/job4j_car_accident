@@ -23,7 +23,7 @@ public class Accident {
     @JoinColumn(name = "accident_types_id", nullable = false)
     private AccidentType type;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.MERGE})
     private Set<Rule> rules = new HashSet<>();
 
     public Accident() {

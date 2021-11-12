@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
-import ru.job4j.accident.repository.AccidentHibernate;
+import ru.job4j.accident.repository.AccidentRepository;
 
 import java.util.*;
 
@@ -15,14 +15,16 @@ public class AccidentService {
 
     private static final Logger LOG = LogManager.getLogger(AccidentService.class.getName());
 
-    private final AccidentHibernate store;
+    private final AccidentRepository store;
 
-    public AccidentService(AccidentHibernate store) {
+    public AccidentService(AccidentRepository store) {
         this.store = store;
     }
 
     public List<Accident> getAllAccidents() {
-        return store.findAllAccidents();
+        List<Accident> res = new ArrayList<>();
+        store.findAll().forEach(res::add);
+        return res;
     }
 
     public List<AccidentType> getAllAccidentTypes() {
@@ -42,12 +44,9 @@ public class AccidentService {
             accident.setRules(rules);
             store.save(accident);
         } else {
-            Accident buff = store.findById(accident.getId());
-            accident.setText(buff.getText());
-            accident.setAddress(buff.getAddress());
-            accident.setType(buff.getType());
-            accident.setRules(buff.getRules());
-            store.update(accident);
+            Accident buff = store.findAccidentByIdForUpdate(accident.getId());
+            buff.setName(accident.getName());
+            store.save(buff);
         }
     }
 
@@ -56,6 +55,6 @@ public class AccidentService {
     }
 
     public Accident findById(int id) {
-        return store.findById(id);
+        return store.findById(id).get();
     }
 }
