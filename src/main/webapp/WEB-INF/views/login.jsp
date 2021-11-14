@@ -33,6 +33,9 @@
             <button type="submit" class="btn btn-primary">Войти</button>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         </form>
+            <div class="mb-3">
+                <a href="<c:url value='/reg'/> ">Регистрация</a>
+            </div>
         </div>
     </div>
 </div>
