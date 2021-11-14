@@ -14,7 +14,7 @@
     <div class="row border bg-light">
         <ul class="nav">
             <li class="nav-item">
-                <i class="nav-link">Вы успешно авторизовались</i>
+                <i class="nav-link">Вы успешно авторизовались как: ${user.username}</i>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="<c:url value='/logout'/> ">Выйти</a>
