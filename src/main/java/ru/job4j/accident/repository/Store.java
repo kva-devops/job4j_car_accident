@@ -6,6 +6,9 @@ import ru.job4j.accident.model.Rule;
 
 import java.util.List;
 
+/**
+ * Interface of store (for using Spring ORM)
+ */
 public interface Store {
 
     List<Accident> findAllAccidents();

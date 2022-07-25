@@ -1,12 +1,20 @@
 package ru.job4j.accident.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+/**
+ * Model of Accident
+ */
 @Entity
 @Table(name = "accidents")
+@NoArgsConstructor
+@Getter
+@Setter
 public class Accident {
 
     @Id
@@ -26,60 +34,8 @@ public class Accident {
     @ManyToMany(cascade = {CascadeType.MERGE})
     private Set<Rule> rules = new HashSet<>();
 
-    public Accident() {
-
-    }
-
     public void addRule(Rule rule) {
         this.rules.add(rule);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public AccidentType getType() {
-        return type;
-    }
-
-    public void setType(AccidentType type) {
-        this.type = type;
-    }
-
-    public Set<Rule> getRules() {
-        return rules;
-    }
-
-    public void setRules(Set<Rule> rules) {
-        this.rules = rules;
     }
 
     @Override

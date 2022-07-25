@@ -8,6 +8,11 @@ import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
 
 import java.util.List;
+import java.util.Optional;
+
+/**
+ * DAO interface for Accident model
+ */
 
 public interface AccidentRepository extends CrudRepository<Accident, Integer> {
 
@@ -23,11 +28,11 @@ public interface AccidentRepository extends CrudRepository<Accident, Integer> {
     List<Rule> findAllRules();
 
     @Query("FROM Rule WHERE id = :id")
-    Rule findRuleById(@Param("id") int id);
+    Optional<Rule> findRuleById(@Param("id") int id);
 
     @Query("SELECT DISTINCT a FROM Accident a "
             + "JOIN FETCH a.type "
             + "JOIN FETCH a.rules "
             + "WHERE a.id = :id")
-    Accident findAccidentByIdForUpdate(@Param("id") int id);
+    Optional<Accident> findAccidentByIdForUpdate(@Param("id") int id);
 }

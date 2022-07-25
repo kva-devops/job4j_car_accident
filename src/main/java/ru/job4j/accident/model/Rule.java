@@ -1,10 +1,19 @@
 package ru.job4j.accident.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Objects;
-
+/**
+ * Model of Rule
+ */
 @Entity
 @Table(name = "rules")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Rule {
 
     @Id
@@ -12,31 +21,6 @@ public class Rule {
     private int id;
 
     private String name;
-
-    public Rule() {
-
-    }
-
-    public Rule(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @Override
     public boolean equals(Object o) {

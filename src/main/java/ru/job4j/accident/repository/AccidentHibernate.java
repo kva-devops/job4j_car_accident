@@ -1,5 +1,6 @@
 package ru.job4j.accident.repository;
 
+import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -11,14 +12,14 @@ import ru.job4j.accident.model.Rule;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Repository implementation with Spring ORM
+ */
 @Repository
+@RequiredArgsConstructor
 public class AccidentHibernate implements Store {
 
     private final SessionFactory sf;
-
-    public AccidentHibernate(SessionFactory sf) {
-         this.sf = sf;
-    }
 
     private <T> T tx(final Function<Session, T> command) {
         final Session session = sf.openSession();

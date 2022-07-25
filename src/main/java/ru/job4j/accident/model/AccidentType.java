@@ -1,10 +1,19 @@
 package ru.job4j.accident.model;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Objects;
-
+/**
+ * Model of Accident Type
+ */
 @Entity
 @Table(name = "accident_types")
+@Getter
+@Setter
+@NoArgsConstructor
 public class AccidentType {
 
     @Id
@@ -12,26 +21,6 @@ public class AccidentType {
     private int id;
 
     private String name;
-
-    public AccidentType() {
-
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     @Override
     public boolean equals(Object o) {

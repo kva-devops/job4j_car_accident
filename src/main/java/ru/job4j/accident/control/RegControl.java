@@ -1,5 +1,6 @@
 package ru.job4j.accident.control;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,11 @@ import ru.job4j.accident.model.User;
 import ru.job4j.accident.repository.AuthorityRepository;
 import ru.job4j.accident.repository.UserRepository;
 
+/**
+ * Controller for register a new user
+ */
 @Controller
+@RequiredArgsConstructor
 public class RegControl {
 
     private final PasswordEncoder encoder;
@@ -19,14 +24,6 @@ public class RegControl {
     private final UserRepository users;
 
     private final AuthorityRepository authorityRepository;
-
-    public RegControl(PasswordEncoder encoder,
-                      UserRepository users,
-                      AuthorityRepository authorityRepository) {
-        this.encoder = encoder;
-        this.users = users;
-        this.authorityRepository = authorityRepository;
-    }
 
     @PostMapping("/reg")
     public String regSave(@ModelAttribute User user, Model model) {

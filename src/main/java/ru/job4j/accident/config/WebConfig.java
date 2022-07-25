@@ -7,6 +7,9 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+/**
+ * Configuration for creating ViewResolver
+ */
 @Configuration
 @ComponentScan("ru.job4j.accident")
 public class WebConfig {
